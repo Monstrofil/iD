@@ -3546,6 +3546,9 @@
                 "fence_type": {
                     "label": "Type"
                 },
+                "fill": {
+                    "label": "Fill with color"
+                },
                 "fire_hydrant/diameter": {
                     "label": "Diameter (mm, in, or letters)",
                     "terms": ""
@@ -4824,6 +4827,12 @@
                 },
                 "street_cabinet": {
                     "label": "Type"
+                },
+                "stroke_width": {
+                    "label": "Line width"
+                },
+                "stroke": {
+                    "label": "Line color"
                 },
                 "stroller": {
                     "label": "Stroller Access",

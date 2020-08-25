@@ -1,14 +1,18 @@
 {
     "fields": [
-        "name"
+        "stroke",
+        "stroke_width"
     ],
     "geometry": [
         "line"
     ],
-    "tags": {},
+    "tags": {
+        "stroke": "#FFFFFF",
+        "stroke-width": "1"
+    },
     "terms": [
         "polyline"
     ],
     "name": "Line",
-    "matchScore": 0.1
+    "matchScore": 1.0
 }

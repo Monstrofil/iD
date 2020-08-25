@@ -5615,3 +5615,7 @@ li.hide + li.version .badge .tooltip .popover-arrow {
     width: 100px;
     color: #7092ff;
 }
+
+.form-field-input-slider {
+    flex-flow: row wrap;
+}

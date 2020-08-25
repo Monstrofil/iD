@@ -1,16 +1,20 @@
 {
     "fields": [
+        "stroke",
+        "stroke_width",
+        "fill",
         "name"
     ],
     "geometry": [
         "area"
     ],
     "tags": {
-        "area": "yes"
+        "area": "yes",
+        "stroke-width": "2"
     },
     "terms": [
         "polygon"
     ],
     "name": "Area",
-    "matchScore": 0.1
+    "matchScore": 1.0
 }

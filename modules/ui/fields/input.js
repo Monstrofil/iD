@@ -1,5 +1,6 @@
 import { dispatch as d3_dispatch } from 'd3-dispatch';
-import { select as d3_select, event as d3_event } from 'd3-selection';
+import { event as d3_event, select as d3_select } from 'd3-selection';
+import { sliderBottom, sliderHorizontal } from 'd3-simple-slider';
 import * as countryCoder from '@ideditor/country-coder';
 
 import { presetManager } from '../../presets';
@@ -13,7 +14,9 @@ export {
     uiFieldText as uiFieldIdentifier,
     uiFieldText as uiFieldNumber,
     uiFieldText as uiFieldTel,
-    uiFieldText as uiFieldEmail
+    uiFieldText as uiFieldEmail,
+    uiFieldText as uiFieldSlider,
+    uiFieldText as uiFieldColor
 };
 
 
@@ -23,6 +26,7 @@ export function uiFieldText(field, context) {
     var outlinkButton = d3_select(null);
     var _entityIDs = [];
     var _tags;
+    var sliderSimple = null;
     var _phoneFormats = {};
 
     if (field.type === 'tel') {
@@ -62,9 +66,16 @@ export function uiFieldText(field, context) {
         input
             .classed('disabled', !!isLocked)
             .attr('readonly', isLocked || null)
-            .on('input', change(true))
             .on('blur', change())
-            .on('change', change());
+            .on('change', change(true));
+
+        // don't save on each color change
+        if (field.type === 'color') {
+            input.on('input', change(false, true));
+        }
+        else {
+            input.on('input', change(true, true));
+        }
 
 
         if (field.type === 'tel') {
@@ -95,8 +106,58 @@ export function uiFieldText(field, context) {
                         return isFinite(num) ? clamped(num + d) : v.trim();
                     });
                     input.node().value = vals.join(';');
-                    change()();
+                    change(true)();
                 });
+        } else if (field.type === 'slider') {
+            input.attr('type', 'text');
+
+            const sliders = wrap.selectAll('.form-field-slider')
+                .data([0]);
+
+            if (sliders.empty()) {
+                sliderSimple = sliderHorizontal()
+                    .width(300)
+                    .step(1)
+                    .default(field.minValue || 0)
+                    .min(field.minValue || 0)
+                    .max(field.maxValue || 100);
+
+                let slider = sliders.enter()
+                    .append('div')
+                    .attr('class', 'form-field-input-wrap form-field-slider')
+                    .merge(sliders);
+
+                sliderSimple.on('onchange', val => {
+                    utilGetSetValue(input, val);
+                    change(false)();
+                });
+
+                sliderSimple.on('end', val => {
+                    change(true)();
+                });
+
+                const gSimple = slider
+                    .append('svg')
+                    .attr('width', '100%')
+                    .attr('height', 70)
+                    .attr('viewBox', '0 0 300 70')
+                    .attr('style', 'left: 5px;' +
+                        'right: 5px;' +
+                        'margin: auto;' +
+                        'padding-left: 10px;' +
+                        'padding-right: 10px;' +
+                        'background-color: white;' +
+                        'border: 1px solid #cccccc;' +
+                        'border-top: 0;')
+                    .append('g')
+                    .attr('transform', 'translate(0,15)');
+
+                gSimple.call(sliderSimple);
+            }
+        } else if (field.type === 'color') {
+            input
+                .attr('type', 'color')
+                .attr('value', field.default);
         } else if (field.type === 'identifier' && field.urlFormat && field.pattern) {
 
             input.attr('type', 'text');
@@ -162,7 +223,7 @@ export function uiFieldText(field, context) {
     }
 
 
-    function change(onInput) {
+    function change(saveHistory, onInput) {
         return function() {
             var t = {};
             var val = utilGetSetValue(input);
@@ -172,7 +233,7 @@ export function uiFieldText(field, context) {
             if (!val && Array.isArray(_tags[field.key])) return;
 
             if (!onInput) {
-                if (field.type === 'number' && val) {
+                if ((field.type === 'number' || field.type === 'slider') && val) {
                     var vals = val.split(';');
                     vals = vals.map(function(v) {
                         var num = parseFloat(v.trim(), 10);
@@ -181,9 +242,14 @@ export function uiFieldText(field, context) {
                     val = vals.join(';');
                 }
                 utilGetSetValue(input, val);
+                if (field.type === 'slider') {
+                    sliderSimple.silentValue(val || 1);
+                }
             }
             t[field.key] = val || undefined;
-            dispatch.call('change', this, t, onInput);
+            if (saveHistory) {
+                dispatch.call('change', this, t, onInput);
+            }
         };
     }
 
@@ -200,10 +266,20 @@ export function uiFieldText(field, context) {
 
         var isMixed = Array.isArray(tags[field.key]);
 
-        utilGetSetValue(input, !isMixed && tags[field.key] ? tags[field.key] : '')
-            .attr('title', isMixed ? tags[field.key].filter(Boolean).join('\n') : undefined)
+        if (field.type !== 'color' || tags[field.key] !== undefined) {
+            utilGetSetValue(input, !isMixed && tags[field.key] ? tags[field.key] : '');
+        }
+        else if (field.type === 'color' && tags[field.key] === undefined) {
+            utilGetSetValue(input, field.default);
+            change(true);
+        }
+        input.attr('title', isMixed ? tags[field.key].filter(Boolean).join('\n') : undefined)
             .attr('placeholder', isMixed ? t('inspector.multiple_values') : (field.placeholder() || t('inspector.unknown')))
             .classed('mixed', isMixed);
+
+        if (field.type === 'slider') {
+            sliderSimple.silentValue(parseFloat(tags[field.key]) || 1);
+        }
 
         if (outlinkButton && !outlinkButton.empty()) {
             var disabled = !validIdentifierValueForLink();

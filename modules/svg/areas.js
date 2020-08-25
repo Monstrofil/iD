@@ -200,6 +200,24 @@ export function svgAreas(projection, context) {
                     base.entities[d.id] &&
                     !deepEqual(graph.entities[d.id].tags, base.entities[d.id].tags);
             })
+            .attr('style', function(d) {
+                if (graph.entities[d.id]) {
+                    const raw_styles = {
+                        'stroke': graph.entities[d.id].tags['stroke'],
+                        'stroke-width': graph.entities[d.id].tags['stroke-width'],
+                        'fill': graph.entities[d.id].tags['fill'],
+                    };
+
+                    const styles = [];
+                    Object.keys(raw_styles).forEach((key) => {
+                        if (raw_styles[key] == null)
+                            return;
+                        styles.push(key + ': ' + raw_styles[key]);
+                    });
+                    return styles.join(';');
+                }
+                return '';
+            })
             .call(svgTagClasses())
             .attr('d', path);
 

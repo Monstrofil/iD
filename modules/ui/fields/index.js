@@ -33,7 +33,8 @@ import {
     uiFieldNumber,
     uiFieldTel,
     uiFieldText,
-    uiFieldUrl
+    uiFieldUrl,
+    uiFieldSlider, uiFieldColor
 } from './input';
 
 import {
@@ -67,6 +68,8 @@ export var uiFields = {
     multiCombo: uiFieldMultiCombo,
     networkCombo: uiFieldNetworkCombo,
     number: uiFieldNumber,
+    slider: uiFieldSlider,
+    color: uiFieldColor,
     onewayCheck: uiFieldOnewayCheck,
     radio: uiFieldRadio,
     restrictions: uiFieldRestrictions,

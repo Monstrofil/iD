@@ -1,0 +1,6 @@
+{
+    "key": "fill",
+    "type": "color",
+    "label": "Fill with color",
+    "default": "#AAFFFFFF"
+}

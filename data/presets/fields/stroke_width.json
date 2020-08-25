@@ -1,0 +1,7 @@
+{
+    "key": "stroke-width",
+    "type": "slider",
+    "minValue": 1,
+    "maxValue": 40,
+    "label": "Line width"
+}

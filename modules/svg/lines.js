@@ -157,6 +157,23 @@ export function svgLines(projection, context) {
                     var oldMPClass = oldMultiPolygonOuters[d.id] ? 'old-multipolygon ' : '';
                     return prefix + ' ' + klass + ' ' + selectedClass + oldMPClass + d.id;
                 })
+                .attr('style', function(d) {
+                    if (graph.entities[d.id]) {
+                        const raw_styles = {
+                            'stroke': graph.entities[d.id].tags['stroke'],
+                            'stroke-width': graph.entities[d.id].tags['stroke-width'],
+                        };
+
+                        const styles = [];
+                        Object.keys(raw_styles).forEach((key) => {
+                            if (raw_styles[key] == null)
+                                return;
+                            styles.push(key + ': ' + raw_styles[key]);
+                        });
+                        return styles.join(';');
+                    }
+                    return '';
+                })
                 .classed('added', function(d) {
                     return !base.entities[d.id];
                 })

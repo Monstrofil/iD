@@ -63,6 +63,8 @@
                 "networkCombo",
                 "number",
                 "onewayCheck",
+                "slider",
+                "color",
                 "radio",
                 "restrictions",
                 "semiCombo",

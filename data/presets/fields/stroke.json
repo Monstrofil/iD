@@ -1,0 +1,6 @@
+{
+    "key": "stroke",
+    "type": "color",
+    "default": "#FFFFFF",
+    "label": "Line color"
+}

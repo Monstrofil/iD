@@ -916,6 +916,9 @@ en:
       fence_type:
         # fence_type=*
         label: Type
+      fill:
+        # fill=*
+        label: Fill with color
       fire_hydrant/diameter:
         # 'fire_hydrant:diameter=*'
         label: 'Diameter (mm, in, or letters)'
@@ -2452,6 +2455,12 @@ en:
       street_cabinet:
         # street_cabinet=*
         label: Type
+      stroke:
+        # stroke=*
+        label: Line color
+      stroke_width:
+        # stroke-width=*
+        label: Line width
       stroller:
         # stroller=*
         label: Stroller Access
@@ -4150,7 +4159,7 @@ en:
         # 'terms: weigh station,weighbridge'
         terms: '<translate with synonyms or related terms for ''Truck Scale'', separated by commas>'
       area:
-        # area=yes
+        # 'area=yes, stroke-width=2'
         name: Area
         # 'terms: polygon'
         terms: '<translate with synonyms or related terms for ''Area'', separated by commas>'
@@ -6274,6 +6283,7 @@ en:
         # 'terms: swim,pool,dive'
         terms: '<translate with synonyms or related terms for ''Water Park'', separated by commas>'
       line:
+        # 'stroke=#FFFFFF, stroke-width=1'
         name: Line
         # 'terms: polyline'
         terms: '<translate with synonyms or related terms for ''Line'', separated by commas>'
