@@ -1,0 +1,22 @@
+
+/* temporary disable */
+.ideditor .more-fields,
+.section-raw-membership-editor{
+    display: none;
+}
+
+.remove-icon,
+.layer-list-qa,
+.layer-list-osm,
+.section-fill-area,
+.section-map-features,
+.info-block .source-switch,
+.info-block .feature-warning {
+    display: none;
+}
+
+.map-pane-control.issues-control,
+.map-pane-control.help-control,
+.map-pane-control.preferences-control {
+    display: none;
+}
