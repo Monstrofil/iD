@@ -1,9 +1,9 @@
 {
     "fields": [
+        "name",
         "stroke",
         "stroke_width",
-        "fill",
-        "name"
+        "fill"
     ],
     "geometry": [
         "area"

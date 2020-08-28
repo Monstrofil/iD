@@ -1,0 +1,4 @@
+{
+    "enabled_categories": [],
+    "enabled_presets": ["area", "point", "line", "relation"]
+}

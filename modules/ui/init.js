@@ -413,11 +413,12 @@ export function uiInit(context) {
         context.enter(modeBrowse(context));
 
         if (!_initCounter++) {
-            if (!ui.hash.startWalkthrough) {
-                context.container()
-                    .call(uiSplash(context))
-                    .call(uiRestore(context));
-            }
+            // TODO: enable when new walkthrough ready
+            // if (!ui.hash.startWalkthrough) {
+            //     context.container()
+            //         .call(uiSplash(context))
+            //         .call(uiRestore(context));
+            // }
 
             context.container()
                 .call(uiShortcuts(context));

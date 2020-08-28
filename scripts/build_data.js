@@ -10,6 +10,7 @@ const prettyStringify = require('json-stringify-pretty-compact');
 const shell = require('shelljs');
 const YAML = require('js-yaml');
 
+const enabledFeatures = require('../data/enabled_features.json');
 const fieldSchema = require('../data/presets/schema/field.json');
 const presetSchema = require('../data/presets/schema/preset.json');
 const deprecated = require('../data/deprecated.json');
@@ -201,6 +202,9 @@ function generateCategories(tstrings, faIcons, tnpIcons) {
   glob.sync('data/presets/categories/*.json').forEach(file => {
     let category = read(file);
     let id = 'category-' + path.basename(file, '.json');
+    if (enabledFeatures.enabled_categories.indexOf(id) === -1){
+        return;
+    }
     tstrings.categories[id] = { name: category.name };
     categories[id] = category;
 
@@ -377,6 +381,9 @@ function generatePresets(tstrings, faIcons, tnpIcons, searchableFieldIDs) {
   glob.sync('data/presets/presets/**/*.json').forEach(file => {
     let preset = read(file);
     let id = stripLeadingUnderscores(file.match(/presets\/presets\/([^.]*)\.json/)[1]);
+    if (enabledFeatures.enabled_presets.indexOf(id) === -1){
+        return;
+    }
 
     validate(file, preset, presetSchema);
 

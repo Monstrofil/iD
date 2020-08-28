@@ -12,7 +12,7 @@ export function validationMissingTag(context) {
     function hasDescriptiveTags(entity, graph) {
         var keys = Object.keys(entity.tags)
             .filter(function(k) {
-                if (k === 'area' || k === 'name') {
+                if (k === 'area') {
                     return false;
                 } else {
                     return osmIsInterestingTag(k);

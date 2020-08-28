@@ -170,6 +170,7 @@ export function svgLines(projection, context) {
                                 return;
                             styles.push(key + ': ' + raw_styles[key]);
                         });
+                        console.log(styles);
                         return styles.join(';');
                     }
                     return '';
